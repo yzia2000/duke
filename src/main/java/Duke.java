@@ -124,8 +124,8 @@ public class Duke {
             if (task_type.equals("deadline")) {
               try {
                 String task_description_full = input.nextLine().substring(1);
-                String task_description = task_description_full.split("/")[0];
-                String task_time = task_description_full.split("/")[1].substring(3);
+                String task_description = task_description_full.split("/", 2)[0];
+                String task_time = task_description_full.split("/", 2)[1].substring(3);
                 list[index] = new Deadline(task_description, task_time);
                 try {
                   save();  
@@ -149,8 +149,8 @@ public class Duke {
             else if (task_type.equals("event")) {
               try {
                 String task_description_full = input.nextLine().substring(1);
-                String task_description = task_description_full.split("/")[0];
-                String task_time = task_description_full.split("/")[1].substring(3);
+                String task_description = task_description_full.split("/", 2)[0];
+                String task_time = task_description_full.split("/", 2)[1].substring(3);
                 list[index] = new Event(task_description, task_time);
                 try {
                   save();  

@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Duke {
-
+    // Utilize Task class
     protected static Task list[] = new Task[100];
     
     public static void main(String[] args) {
@@ -76,13 +76,14 @@ public class Duke {
     }
 
     public static void doTask(int i) {
+      // If task has not been created yet.
       if (list[i - 1] == null) {
         System.out.println("\t_____________________________________");
         System.out.println("\tTask doesn't exist. Please choose another.");
         System.out.println("\t_____________________________________\n\n");
         return;
       }
-
+      // mark task as done
       list[i - 1].markAsDone();
       System.out.println("\t_____________________________________");
       System.out.println("\tNice! I've marked this task as done:");

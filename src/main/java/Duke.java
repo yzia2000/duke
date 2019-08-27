@@ -17,35 +17,62 @@ public class Duke {
       System.out.println();
 
       // Taking first input
-      String user_input = input.nextLine();
+      String task_type = input.next();
       
       int index = 0;
 
       // Taking input and printing till user input is bye or the list hits 100
-      while (!user_input.equals("bye") && index < 100) {
-        String split_for_done[] = user_input.split("\\s");
+      while (!task_type.equals("bye") && index < 100) {
         // If user inputs list
-        if (user_input.equals("list")) {
+        if (task_type.equals("list")) {
           displayList();
         }
         // Do task.
-        else if (split_for_done[0].equals("done")) {
+        else if (task_type.equals("done")) {
           // Extracting which task to do
-          int task_id = Integer.parseInt(user_input.split("\\s")[1]);
+          int task_id = Integer.parseInt(input.nextLine().substring(1));
           doTask(task_id);
         }
         else {
+
           // Appending list
-          list[index] = new Task(user_input);
+          if (task_type.equals("todo")) {
+            String task_description_full = input.nextLine().substring(1);
+            list[index] = new ToDo(task_description_full);
+          } 
+          else {
+            if (task_type.equals("deadline")) {
+              String task_description_full = input.nextLine().substring(1);
+              String task_description = task_description_full.split("/")[0];
+              String task_time = task_description_full.split("/")[1].substring(3);
+              list[index] = new Deadline(task_description, task_time);
+            }
+            else if (task_type.equals("event")) {
+              String task_description_full = input.nextLine().substring(1);
+              String task_description = task_description_full.split("/")[0];
+              String task_time = task_description_full.split("/")[1].substring(3);
+              list[index] = new Event(task_description, task_time);
+            }
+            else {
+              System.out.println("\t_____________________________________");
+              System.out.println("\tPlease enter a valid command: todo, deadline, event, list, bye");
+              System.out.println("\t_____________________________________\n\n");
+              task_type = input.next();
+              System.out.println();
+              continue;
+            }
+          }
           index++;
   
           System.out.println("\t_____________________________________");
+          System.out.println("\tGot it. I've added this task:");
           // Printing user input
-          System.out.println("\tadded: " + user_input);  
+          System.out.println("\t  " + list[index - 1].toString());  
+          System.out.println("\tNow you have " + index + " tasks in the list.");
           System.out.println("\t_____________________________________\n\n");
           // Taking user input again
         }
-        user_input = input.nextLine();
+        task_type = input.next();
         System.out.println();
       }
       System.out.println("\t_____________________________________");
@@ -69,7 +96,7 @@ public class Duke {
         if (list[i] == null) {
           break;
         }
-        System.out.println("\t" + (i + 1) + ".[" + list[i].getStatusIcon() + "] " + list[i].getDescription());
+        System.out.println("\t" + (i + 1) + "." + list[i].toString());
       } 
       System.out.println("\t_____________________________________\n\n");
       return;
@@ -87,7 +114,7 @@ public class Duke {
       list[i - 1].markAsDone();
       System.out.println("\t_____________________________________");
       System.out.println("\tNice! I've marked this task as done:");
-      System.out.println("\t  " + (i) + ".[" + list[i - 1].getStatusIcon() + "] " + list[i - 1].getDescription());
+      System.out.println("\t  " + (i) + "." + list[i - 1].toString());
       System.out.println("\t_____________________________________\n\n");
     }
 }

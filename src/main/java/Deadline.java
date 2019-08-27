@@ -9,4 +9,9 @@ public class Deadline extends Task {
   public String toString() {
     return "[D]" + super.toString() + " (by: " + this.by + ")";
   }
+
+  public String toSaveFormat() {
+    int isDone = this.isDone ? 1 : 0;
+    return "D|" + super.toSaveFormat() + "|" + this.by;
+  }
 }

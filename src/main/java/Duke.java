@@ -16,7 +16,7 @@ public class Duke {
 
       System.out.println();
 
-      // Taking first input
+      // Taking the first word as input for task type
       String task_type = input.next();
       
       int index = 0;
@@ -29,30 +29,33 @@ public class Duke {
         }
         // Do task.
         else if (task_type.equals("done")) {
-          // Extracting which task to do
+          // Extracting which task to do from the rest of the line after inputting only task type in line 20
           int task_id = Integer.parseInt(input.nextLine().substring(1));
           doTask(task_id);
         }
         else {
-
-          // Appending list
+          // if tasktype is todo initialize object of class ToDo
           if (task_type.equals("todo")) {
             String task_description_full = input.nextLine().substring(1);
             list[index] = new ToDo(task_description_full);
           } 
+          // if tasktype is not ToDo
           else {
+            // Extract task time and task description and initialize as deadline
             if (task_type.equals("deadline")) {
               String task_description_full = input.nextLine().substring(1);
               String task_description = task_description_full.split("/")[0];
               String task_time = task_description_full.split("/")[1].substring(3);
               list[index] = new Deadline(task_description, task_time);
             }
+            // Extract task time and task description and initialize as event
             else if (task_type.equals("event")) {
               String task_description_full = input.nextLine().substring(1);
               String task_description = task_description_full.split("/")[0];
               String task_time = task_description_full.split("/")[1].substring(3);
               list[index] = new Event(task_description, task_time);
             }
+            // If tasktype is not valid
             else {
               System.out.println("\t_____________________________________");
               System.out.println("\tPlease enter a valid command: todo, deadline, event, list, bye");
@@ -68,6 +71,7 @@ public class Duke {
           System.out.println("\tGot it. I've added this task:");
           // Printing user input
           System.out.println("\t  " + list[index - 1].toString());  
+          // Printing number of items in list
           System.out.println("\tNow you have " + index + " tasks in the list.");
           System.out.println("\t_____________________________________\n\n");
           // Taking user input again

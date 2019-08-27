@@ -43,37 +43,60 @@ public class Duke {
           else {
             // Extract task time and task description and initialize as deadline
             if (task_type.equals("deadline")) {
-              String task_description_full = input.nextLine().substring(1);
-              String task_description = task_description_full.split("/")[0];
-              String task_time = task_description_full.split("/")[1].substring(3);
-              list[index] = new Deadline(task_description, task_time);
+              try {
+                String task_description_full = input.nextLine().substring(1);
+                String task_description = task_description_full.split("/")[0];
+                String task_time = task_description_full.split("/")[1].substring(3);
+                list[index] = new Deadline(task_description, task_time);
+              }
+              // if /by is not included in deadline command
+              catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("\t_____________________________________");
+                System.out.println("\tDeadline needs a '/' before by");
+                System.out.println("\t_____________________________________\n\n");
+                task_type = input.next();
+                System.out.println();
+                continue;
+              }
             }
             // Extract task time and task description and initialize as event
             else if (task_type.equals("event")) {
-              String task_description_full = input.nextLine().substring(1);
-              String task_description = task_description_full.split("/")[0];
-              String task_time = task_description_full.split("/")[1].substring(3);
-              list[index] = new Event(task_description, task_time);
-            }
-            // If tasktype is not valid
-            else {
-              System.out.println("\t_____________________________________");
-              System.out.println("\tPlease enter a valid command: todo, deadline, event, list, bye");
-              System.out.println("\t_____________________________________\n\n");
-              task_type = input.next();
-              System.out.println();
-              continue;
+              try {
+                String task_description_full = input.nextLine().substring(1);
+                String task_description = task_description_full.split("/")[0];
+                String task_time = task_description_full.split("/")[1].substring(3);
+                list[index] = new Event(task_description, task_time);
+              }
+              // if /at is not included in event command
+              catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("\t_____________________________________");
+                System.out.println("\tEvent needs a '/' before at");
+                System.out.println("\t_____________________________________\n\n");
+                task_type = input.next();
+                System.out.println();
+                continue;
+              }
             }
           }
-          index++;
   
-          System.out.println("\t_____________________________________");
-          System.out.println("\tGot it. I've added this task:");
           // Printing user input
-          System.out.println("\t  " + list[index - 1].toString());  
-          // Printing number of items in list
-          System.out.println("\tNow you have " + index + " tasks in the list.");
-          System.out.println("\t_____________________________________\n\n");
+          try {
+            // The output to print on writing correct command
+            String output = "\t  " + list[index].toString();
+            index++;
+            System.out.println("\t_____________________________________");
+            System.out.println("\tGot it. I've added this task:");
+            System.out.println(output);  
+            // Printing number of items in list
+            System.out.println("\tNow you have " + index + " tasks in the list.");
+            System.out.println("\t_____________________________________\n\n");
+          }
+          // if unknown command is inputted
+          catch (NullPointerException e) {
+            System.out.println("\t_____________________________________");
+            System.out.println("\tPlease enter a valid command: todo, deadline, event, list, bye");
+            System.out.println("\t_____________________________________\n\n");
+          }
           // Taking user input again
         }
         task_type = input.next();
@@ -103,22 +126,21 @@ public class Duke {
         System.out.println("\t" + (i + 1) + "." + list[i].toString());
       } 
       System.out.println("\t_____________________________________\n\n");
-      return;
     }
 
     public static void doTask(int i) {
-      // If task has not been created yet.
-      if (list[i - 1] == null) {
+      try {
+        list[i - 1].markAsDone();
+        System.out.println("\t_____________________________________");
+        System.out.println("\tNice! I've marked this task as done:");
+        System.out.println("\t  " + (i) + "." + list[i - 1].toString());
+        System.out.println("\t_____________________________________\n\n");
+      }
+      // Catch exception if wrong task id is done
+      catch (NullPointerException e) {
         System.out.println("\t_____________________________________");
         System.out.println("\tTask doesn't exist. Please choose another.");
         System.out.println("\t_____________________________________\n\n");
-        return;
       }
-      // mark task as done
-      list[i - 1].markAsDone();
-      System.out.println("\t_____________________________________");
-      System.out.println("\tNice! I've marked this task as done:");
-      System.out.println("\t  " + (i) + "." + list[i - 1].toString());
-      System.out.println("\t_____________________________________\n\n");
     }
 }

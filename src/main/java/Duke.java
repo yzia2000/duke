@@ -16,13 +16,16 @@ public class Duke {
       // Taking first input
       String user_input = input.nextLine();
       
-      // Taking input and printing till user input is bye
       String list[] = new String[100];
       int index = 0;
-      while (!user_input.equals("bye")) {
 
-        if (user_input.equals("list") && index < 100) {
-          
+      // Taking input and printing till user input is bye or the list hits 100
+      while (!user_input.equals("bye") && index < 100) {
+        
+        // If user inputs list
+        if (user_input.equals("list")) {
+
+          // If user inputs list without appending list even once.
           if (list[0] == null) {
             System.out.println("\t_____________________________________");
             System.out.println("\tList is empty. Please type another command apart from list.");
@@ -44,6 +47,7 @@ public class Duke {
           System.out.println();
           continue;
         }
+        // Appending list
         list[index] = user_input;
         index++;
 

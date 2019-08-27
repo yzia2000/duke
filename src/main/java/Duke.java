@@ -17,10 +17,39 @@ public class Duke {
       String user_input = input.nextLine();
       
       // Taking input and printing till user input is bye
+      String list[] = new String[100];
+      int index = 0;
       while (!user_input.equals("bye")) {
+
+        if (user_input.equals("list") && index < 100) {
+          
+          if (list[0] == null) {
+            System.out.println("\t_____________________________________");
+            System.out.println("\tList is empty. Please type another command apart from list.");
+            System.out.println("\t_____________________________________\n\n");
+            user_input = input.nextLine();
+            System.out.println();
+            continue;
+          }
+
+          System.out.println("\t_____________________________________");
+          for (int i = 0; i < 100; i++) {
+            if (list[i] == null) {
+              break;
+            }
+            System.out.println("\t" + (i + 1) + ". " + list[i]);
+          } 
+          System.out.println("\t_____________________________________\n\n");
+          user_input = input.nextLine();
+          System.out.println();
+          continue;
+        }
+        list[index] = user_input;
+        index++;
+
         System.out.println("\t_____________________________________");
         // Printing user input
-        System.out.println("\t" + user_input);  
+        System.out.println("\tadded: " + user_input);  
         System.out.println("\t_____________________________________\n\n");
         // Taking user input again
         user_input = input.nextLine();

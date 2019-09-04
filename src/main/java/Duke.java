@@ -1,14 +1,12 @@
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class Duke {
   // Creating ArrayList of Task objects
   protected static ArrayList<Task> list = new ArrayList<Task>(); 
+  protected static Storage storage = new Storage("data/duke.txt");
+
 
   public static void main(String[] args) {
     String logo = " ____        _        \n"
@@ -19,8 +17,8 @@ public class Duke {
     System.out.println("Hello from\n" + logo);
 
     Scanner input = new Scanner(System.in);
-
-    load();
+    
+    list = storage.load();
 
     System.out.println();
 
@@ -38,12 +36,14 @@ public class Duke {
         findTask(task_description_full);
       }
       else if (task_type.equals("delete")) {
-        if (list.isEmpty() == false) {
-          index--;
-        }
 
         int task_id = Integer.parseInt(input.nextLine().substring(1));
         removeTask(task_id);
+        index--;
+
+        if (list.isEmpty()) {
+          index = 0;
+        }
       }
       else if (task_type.equals("list")) {
         displayList();
@@ -61,7 +61,7 @@ public class Duke {
           list.add(new ToDo(task_description_full));
 
           try {
-            save();  
+            storage.save(list);  
           } catch(IOException e){
             System.out.println("\t_____________________________________");
             System.out.println("\tCouldn't save file.");
@@ -78,7 +78,7 @@ public class Duke {
               String task_time = task_description_full.split("/", 2)[1].substring(3);
               list.add(new Deadline(task_description, task_time));
               try {
-                save();  
+                storage.save(list);  
               } catch(IOException e){
                 System.out.println("\t_____________________________________");
                 System.out.println("\tCouldn't save file.");
@@ -103,7 +103,7 @@ public class Duke {
               String task_time = task_description_full.split("/", 2)[1].substring(3);
               list.add(new Event(task_description, task_time));
               try {
-                save();  
+                storage.save(list);  
               } catch(IOException e){
                 System.out.println("\t_____________________________________");
                 System.out.println("\tCouldn't save file.");
@@ -160,64 +160,6 @@ public class Duke {
 
   }
 
-  // Loads duke.txt
-  public static void load() {
-    try {
-      Scanner duke_txt = new Scanner(new File("data/duke.txt"));
-      while (duke_txt.hasNextLine()) {
-        // splits line input based on |
-        String task_string[] = duke_txt.nextLine().split("\\|");
-
-        // instantiate classes
-        if (task_string[0].equals("T")) {
-          list.add(new ToDo(task_string[2]));
-        }
-        else if (task_string[0].equals("D")) {
-          list.add(new Deadline(task_string[2], task_string[3]));
-        }
-        else {
-          list.add(new Event(task_string[2], task_string[3]));
-        }
-
-        if (task_string[1].equals("1")) {
-          list.get(list.size() - 1).markAsDone();
-        }
-      }
-      duke_txt.close();
-    }
-    catch (FileNotFoundException e) {
-      System.out.println("\t_____________________________________");
-      System.out.println("\tNo list saved in database. Please create a list now.");
-      System.out.println("\t_____________________________________\n\n");
-    }
-  }
-
-  public static void save() throws IOException {
-    // if list has nothing just quit
-    if (list.isEmpty()) {
-      return;
-    }
-
-    // if data folder doesnt exist create it
-    File directory = new File("data");
-    if (! directory.exists()){
-      directory.mkdir();
-    }
-
-    // save inputs
-    String saved_line = list.get(0).toSaveFormat();
-    for (int i = 1; i < list.size(); i++) {
-      /* if (list[i] == null) { */
-      /*   break; */
-      /* } */
-      saved_line = saved_line + "\n" + list.get(i).toSaveFormat();
-    }
-    BufferedWriter writer = new BufferedWriter(new FileWriter(new File("data/duke.txt")));
-    writer.write(saved_line);
-    writer.close();
-  }
-
-
   public static void displayList() {
     // If user inputs list without appending list even once.
     if (list.isEmpty()) {
@@ -239,7 +181,7 @@ public class Duke {
     try {
       list.get(i - 1).markAsDone();
       try {
-        save();  
+        storage.save(list);  
       } catch(IOException e){
         System.out.println("\t_____________________________________");
         System.out.println("\tCouldn't save file.");
@@ -268,7 +210,7 @@ public class Duke {
       System.out.println("\tNow there are " + list.size() + " tasks left.");
       System.out.println("\t_____________________________________\n\n");
       try {
-        save();
+        storage.save(list);
       } catch(IOException e){
         System.out.println("\t_____________________________________");
         System.out.println("\tCouldn't save file.");

@@ -38,9 +38,12 @@ public class Duke {
         findTask(task_description_full);
       }
       else if (task_type.equals("delete")) {
+        if (list.isEmpty() == false) {
+          index--;
+        }
+
         int task_id = Integer.parseInt(input.nextLine().substring(1));
         removeTask(task_id);
-        index--;
       }
       else if (task_type.equals("list")) {
         displayList();

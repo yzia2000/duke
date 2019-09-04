@@ -24,7 +24,7 @@ rm -rf data
 # fi
 
 # run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
-java -classpath ../bin/main Duke < input.txt > ACTUAL.TXT
+java -classpath ../build/classes/java/main Duke < input.txt > ACTUAL.TXT
 
 rm -rf data
 

@@ -57,6 +57,14 @@ Hello from
 
 
 	_____________________________________
+	Found 2. Here you go.
+	  1.[T][✘] have some fun making Duke better
+	  2.[D][✘] finish Duke requirements  (by: 4th of September 2019, 11:59PM)
+	_____________________________________
+
+
+
+	_____________________________________
 	Here are the tasks in your list:
 	1.[T][✘] have some fun making Duke better
 	2.[D][✘] finish Duke requirements  (by: 4th of September 2019, 11:59PM)

@@ -49,10 +49,17 @@ Hello from
 
 
 	_____________________________________
+	Noted. I have removed this task:
+	  2.[E][✓] meet Kartike  (at: 4th of September 2019, 4:06PM)
+	Now there are 2 tasks left.
+	_____________________________________
+
+
+
+	_____________________________________
 	Here are the tasks in your list:
 	1.[T][✘] have some fun making Duke better
-	2.[E][✓] meet Kartike  (at: 4th of September 2019, 4:06PM)
-	3.[D][✘] finish Duke requirements  (by: 4th of September 2019, 11:59PM)
+	2.[D][✘] finish Duke requirements  (by: 4th of September 2019, 11:59PM)
 	_____________________________________
 
 

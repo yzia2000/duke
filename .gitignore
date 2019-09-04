@@ -18,3 +18,5 @@ bin/
 /data
 .project
 .settings
+
+text-ui-test/ACTUAL.TXT

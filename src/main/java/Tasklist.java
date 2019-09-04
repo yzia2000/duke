@@ -1,14 +1,23 @@
 import java.util.ArrayList;
 
-public class Tasklist {
+public class TaskList {
   protected ArrayList<Task> list = new  ArrayList<Task>();
+  protected Ui ui = new Ui();
   
-  public Tasklist(ArrayList<Task> list) {
+  public TaskList(ArrayList<Task> list) {
     this.list = list;
   }
 
   public Task get(int index) {
     return list.get(index);
+  }
+
+  public int size() {
+    return list.size();
+  }
+
+  public boolean isEmpty() {
+    return list.isEmpty();
   }
 
   public void add (String task_type, String task_description_full) {
@@ -26,9 +35,7 @@ public class Tasklist {
         }
         // if /by is not included in deadline command
         catch (ArrayIndexOutOfBoundsException e) {
-          System.out.println("\t_____________________________________");
-          System.out.println("\tDeadline needs a '/' before by");
-          System.out.println("\t_____________________________________\n\n");
+          ui.wrong_description_error();
           return;
         }
       }
@@ -41,9 +48,7 @@ public class Tasklist {
         }
         // if /at is not included in event command
         catch (ArrayIndexOutOfBoundsException e) {
-          System.out.println("\t_____________________________________");
-          System.out.println("\tEvent needs a '/' before at");
-          System.out.println("\t_____________________________________\n\n");
+          ui.wrong_description_error();
           return;
           /* task_type = input.next(); */
           /* System.out.println(); */
@@ -51,9 +56,7 @@ public class Tasklist {
         }
       }
       else {
-        System.out.println("\t_____________________________________");
-        System.out.println("\tPlease enter a valid command: todo, deadline, event, list, bye, find, delete.");
-        System.out.println("\t_____________________________________\n\n");
+        ui.correct_command_error();
         return;
         /* task_type = input.next(); */
         /* System.out.println(); */
@@ -81,37 +84,70 @@ public class Tasklist {
     // Taking user input again
   }
 
+  public ArrayList<Task> return_list() {
+    return list;
+  }
+
   public void doTask(int i) {
     try {
-      list.get(i - 1).markAsDone();
+      list.get(i).markAsDone();
       System.out.println("\t_____________________________________");
       System.out.println("\tNice! I've marked this task as done:");
-      System.out.println("\t  " + (i) + "." + list.get(i - 1).toString());
+      System.out.println("\t  " + (i + 1) + "." + list.get(i).toString());
       System.out.println("\t_____________________________________\n\n");
     }
     // Catch exception if wrong task id is done
     catch (IndexOutOfBoundsException e) {
-      System.out.println("\t_____________________________________");
-      System.out.println("\tTask doesn't exist. Please choose another.");
-      System.out.println("\t_____________________________________\n\n");
+      ui.task_doesnt_exist_error();
     }
   }
 
   public void removeTask(int i) {
     try {
-      Task last_task = list.get(i - 1);
-      list.remove(i - 1);
+      Task last_task = list.get(i);
+      list.remove(i);
       System.out.println("\t_____________________________________");
       System.out.println("\tNoted. I have removed this task:");
-      System.out.println("\t  " + (i) + "." + last_task.toString());
+      System.out.println("\t  " + (i + 1) + "." + last_task.toString());
       System.out.println("\tNow there are " + list.size() + " tasks left.");
       System.out.println("\t_____________________________________\n\n");
     }
     catch (IndexOutOfBoundsException e) {
-      System.out.println("\t_____________________________________");
-      System.out.println("\tTask doesn't exist. Please choose another.");
-      System.out.println("\t_____________________________________\n\n");
+      ui.task_doesnt_exist_error();
     }
   }
 
+  public void displayList() {
+    // If user inputs list without appending list even once.
+    if (list.isEmpty()) {
+      ui.show_empty_list_error();
+      return;
+    }
+
+    System.out.println("\t_____________________________________");
+    System.out.println("\tHere are the tasks in your list:");
+    for (int i = 0; i < list.size(); i++) {
+      System.out.println("\t" + (i + 1) + "." + list.get(i).toString());
+    } 
+    System.out.println("\t_____________________________________\n\n");
+  }
+
+  public void findTask(String task_description) {
+    ArrayList<Integer> matching_tasks = new ArrayList<Integer>();
+    for (int i = 0; i < list.size(); i++) {
+      if (list.get(i).getDescription().contains(task_description)) {
+        matching_tasks.add(Integer.valueOf(i));
+      }
+    }
+    if (matching_tasks.isEmpty()) {
+      ui.task_doesnt_exist_error();
+      return;
+    }
+    System.out.println("\t_____________________________________");
+    System.out.println("\tFound " + matching_tasks.size() + ". Here you go.");
+    for (Integer id : matching_tasks) {
+      System.out.println("\t  " + (id + 1) + "." + list.get(id).toString());
+    }
+    System.out.println("\t_____________________________________\n\n");
+  }
 }

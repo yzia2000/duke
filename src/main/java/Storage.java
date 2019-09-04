@@ -50,6 +50,7 @@ public class Storage {
     // if list has nothing just quit
     if (input_list.isEmpty()) {
       (new File(this.filePath)).delete();
+      return;
     }
 
     //if data folder doesnt exist create it

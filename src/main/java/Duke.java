@@ -33,7 +33,11 @@ public class Duke {
     // Taking input and printing till user input is bye or the list hits 100
     while (!task_type.equals("bye")) {
       // If user inputs list
-      if (task_type.equals("delete")) {
+      if (task_type.equals("find")) {
+        String task_description_full = input.nextLine().substring(1);
+        findTask(task_description_full);
+      }
+      else if (task_type.equals("delete")) {
         int task_id = Integer.parseInt(input.nextLine().substring(1));
         removeTask(task_id);
         index--;
@@ -273,5 +277,26 @@ public class Duke {
       System.out.println("\tTask doesn't exist. Please choose another.");
       System.out.println("\t_____________________________________\n\n");
     }
+  }
+  
+  public static void findTask(String task_description) {
+    ArrayList<Integer> matching_tasks = new ArrayList<Integer>();
+    for (int i = 0; i < list.size(); i++) {
+      if (list.get(i).getDescription().contains(task_description)) {
+        matching_tasks.add(Integer.valueOf(i));
+      }
+    }
+    if (matching_tasks.isEmpty()) {
+      System.out.println("\t_____________________________________");
+      System.out.println("\tTask doesn't exist. Please choose another.");
+      System.out.println("\t_____________________________________\n\n");
+      return;
+    }
+    System.out.println("\t_____________________________________");
+    System.out.println("\tFound " + matching_tasks.size() + ". Here you go.");
+    for (Integer id : matching_tasks) {
+      System.out.println("\t  " + (id + 1) + "." + list.get(id).toString());
+    }
+    System.out.println("\t_____________________________________\n\n");
   }
 }

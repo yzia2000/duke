@@ -1,5 +1,3 @@
-package seedu.duke;
-
 public class Deadline extends Task {
   protected String by;
   protected String date_by;

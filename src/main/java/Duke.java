@@ -1,5 +1,3 @@
-package seedu.duke;
-
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,7 +15,7 @@ public class Duke {
     // Loads duke.txt
     public static void load() {
       try {
-        Scanner duke_txt = new Scanner(new File("../../../data/duke.txt"));
+        Scanner duke_txt = new Scanner(new File("data/duke.txt"));
         int index = 0;
         while (duke_txt.hasNextLine() && index < 100) {
           // splits line input based on |
@@ -55,7 +53,7 @@ public class Duke {
       }
       
       // if data folder doesnt exist create it
-      File directory = new File("../../../data");
+      File directory = new File("data");
       if (! directory.exists()){
         directory.mkdir();
       }
@@ -68,7 +66,7 @@ public class Duke {
         }
         saved_line = saved_line + "\n" + list[i].toSaveFormat();
       }
-      BufferedWriter writer = new BufferedWriter(new FileWriter(new File("../../../data/duke.txt")));
+      BufferedWriter writer = new BufferedWriter(new FileWriter(new File("data/duke.txt")));
       writer.write(saved_line);
       writer.close();
     }

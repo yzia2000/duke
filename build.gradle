@@ -12,10 +12,18 @@ repositories {
 
 application {
     // Change this to your main class.
-    mainClassName = "Duke"
+    mainClassName = "seedu.duke.Duke"
     // executableDir = "src.main.java"
 }
 
 run {
   standardInput = System.in
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.0'
+}
+
+test {
+  useJUnitPlatform()
 }

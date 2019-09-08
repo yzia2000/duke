@@ -1,3 +1,5 @@
+package seedu.duke;
+
 public class Parser {
   public String[] parse (String user_input) {
     String[] output = user_input.split(" ", 2);

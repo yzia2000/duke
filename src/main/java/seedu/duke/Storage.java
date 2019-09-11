@@ -56,10 +56,10 @@ public class Storage {
     }
 
     //if data folder doesnt exist create it
-    File directory = new File(this.filePath.split("/")[0]);
-    if (! directory.exists()){
-      directory.mkdir();
-    }
+    /* File directory = new File(this.filePath.split("/")[0]); */
+    /* if (! directory.exists()){ */
+    /*   directory.mkdir(); */
+    /* } */
 
     // save inputs
     String saved_line = input_list.get(0).toSaveFormat();

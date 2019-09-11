@@ -15,7 +15,7 @@ fi
 # compile the code into the bin folder, terminates if error occurred
 # if ! javac -cp ../src -Xlint:none -d ../bin ../src/main/java/Duke.java
 
-rm -rf data
+mkdir data
 
 ../gradlew -p .. build
 # then
@@ -24,9 +24,9 @@ rm -rf data
 # fi
 
 # run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
-java -classpath ../build/classes/java/main Duke < input.txt > ACTUAL.TXT
+java -classpath ../bin/main seedu.duke.Duke < input.txt > ACTUAL.TXT
 
-rm -rf data
+rm -rf data 
 
 # compare the output to the expected output
 diff ACTUAL.TXT EXPECTED.TXT

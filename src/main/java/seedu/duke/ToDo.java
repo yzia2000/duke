@@ -13,4 +13,11 @@ public class ToDo extends Task {
     int isDone = this.isDone ? 1 : 0;
     return "T|" + super.toSaveFormat(); 
   }
+  public boolean equals(ToDo temp) {
+    if (this.description == temp.description) {
+      return true; 
+    }
+    System.out.println("they arent equal");
+    return false;
+  }
 }

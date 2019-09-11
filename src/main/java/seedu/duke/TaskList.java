@@ -152,4 +152,22 @@ public class TaskList {
     }
     System.out.println("\t_____________________________________\n\n");
   }
+
+  public boolean equals(TaskList temp) {
+
+    if (this.size() != temp.size()) {
+      System.out.println("Length not equal");
+      return false;  
+    }
+
+    for (int i = 0; i < this.size(); i++) {
+      if (!this.get(i).equals(temp.get(i))) {
+        System.out.println(this.get(i).description + temp.get(i).description + "?");
+        return false;
+      }
+    }
+
+    return true;
+
+  }
 }

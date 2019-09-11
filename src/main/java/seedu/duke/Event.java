@@ -1,10 +1,16 @@
 package seedu.duke;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
+
 public class Event extends Task {
   
   protected String at;
   // translated date version
   protected String date_at;
+  private Ui ui = new Ui();
 
   public Event(String description, String at) {
     super(description);
@@ -15,49 +21,19 @@ public class Event extends Task {
   // translating date
   public void to_date() {
     // splitting date
-    String date_split[] = at.split("/");
-    int day = Integer.parseInt(date_split[0]);
-    int month = Integer.parseInt(date_split[1]);
-    int year = Integer.parseInt(date_split[2].split("\\s")[0]);
-    String time_string = date_split[2].split("\\s")[1];
-    if (time_string.length() == 3) {
-      time_string = "0" + time_string;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/uuuu HHmm");
+    LocalDateTime parsedDate;
+    try {
+      parsedDate = LocalDateTime.parse(this.at, formatter);
     }
-    int hours = Integer.parseInt(time_string.substring(0, 2));
-    String mins = time_string.substring(2, 4);
-    
-    // getting month string
-    String monthString = "";
-    switch (month) {
-      case 1:  monthString = "January";
-               break;
-      case 2:  monthString = "February";
-               break;
-      case 3:  monthString = "March";
-               break;
-      case 4:  monthString = "April";
-               break;
-      case 5:  monthString = "May";
-               break;
-      case 6:  monthString = "June";
-               break;
-      case 7:  monthString = "July";
-               break;
-      case 8:  monthString = "August";
-               break;
-      case 9:  monthString = "September";
-               break;
-      case 10: monthString = "October";
-               break;
-      case 11: monthString = "November";
-               break;
-      case 12: monthString = "December";
-               break;
+    catch (DateTimeParseException e) {
+      ui.date_time_error(); 
+      this.date_at = this.at;
+      return;
     }
-    
-    // getting day suffix
+   
     String suffix;
-    switch (day % 10)
+    switch (parsedDate.getDayOfMonth() % 10)
     {
       case 1:
         suffix = "st";
@@ -73,31 +49,27 @@ public class Event extends Task {
         break;
     }
 
-    if (day > 3 && day < 21) {
+    if (parsedDate.getDayOfMonth() > 3 && parsedDate.getDayOfMonth() < 21) {
       suffix = "th";
     }
 
-    // AM or PM 
-    String AM_PM = hours >= 12 ? "PM" : "AM";
+    DateTimeFormatter print_format = DateTimeFormatter.ofPattern("d'" + suffix + "' 'of' MMMM uuuu',' h:mma", Locale.ENGLISH);
 
-    // 24 to 12 hour clock
-    hours = hours > 12 ? hours - 12 : hours;
-    
-    // Account for Zero hour
-    if (hours == 0) {
-      hours = 12;
-    }
-
-    this.date_at = day + suffix + " of " + monthString + " " + year + ", " + (hours % 13) + ":" + mins + AM_PM;
-
-  }
+    this.date_at = parsedDate.format(print_format);
+}
 
   public String toString() {
     return "[E]" + super.toString() + " (at: " + this.date_at + ")";
   }
 
   public String toSaveFormat() {
-    int isDone = this.isDone ? 1 : 0;
     return "E|" + super.toSaveFormat() + "|" + this.at;
+  }
+
+  public boolean equals(Event temp) {
+    if (this.description == temp.description && this.at == temp.at && this.date_at == temp.date_at) {
+      return true; 
+    }
+    return false;
   }
 }

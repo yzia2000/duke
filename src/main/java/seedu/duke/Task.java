@@ -29,4 +29,11 @@ public class Task {
       int isDone = this.isDone ? 1 : 0;
       return isDone + "|" + this.description;
     }
+
+    public boolean equals(Task temp) {
+      if (this.description == temp.description) {
+        return true; 
+      }
+      return false;
+    }
 }

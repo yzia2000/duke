@@ -8,6 +8,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.FileWriter;
 
+/**
+ * A class that stores current task list and loads it on request from disc.
+ */
 public class Storage {
   private String filePath;
   
@@ -15,6 +18,11 @@ public class Storage {
     this.filePath = filePath;
   }
 
+  /**
+   * Loads list of tasks from disc from a csv style file.
+   *
+   * @return an array list loaded from the disc.
+   */
   public ArrayList<Task> load() {
     ArrayList<Task> list = new ArrayList<Task>();
     try {
@@ -47,7 +55,13 @@ public class Storage {
     }
     return list;
   }
-
+  
+  /**
+   * Saves the input task list to disc.
+   *
+   * @param input_list the list of tasks to save to disc.
+   * @throws IOException if file could not be saved
+   */
   public void save(ArrayList<Task> input_list) throws IOException {
     // if list has nothing just quit
     if (input_list.isEmpty()) {
@@ -56,17 +70,14 @@ public class Storage {
     }
 
     //if data folder doesnt exist create it
-    /* File directory = new File(this.filePath.split("/")[0]); */
-    /* if (! directory.exists()){ */
-    /*   directory.mkdir(); */
-    /* } */
+    File directory = new File(this.filePath.split("/")[0]);
+    if (! directory.exists()){
+      directory.mkdir();
+    }
 
     // save inputs
     String saved_line = input_list.get(0).toSaveFormat();
     for (int i = 1; i < input_list.size(); i++) {
-      /* if (list[i] == null) { */
-      /*   break; */
-      /* } */
       saved_line = saved_line + "\n" + input_list.get(i).toSaveFormat();
     }
     BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.filePath)));

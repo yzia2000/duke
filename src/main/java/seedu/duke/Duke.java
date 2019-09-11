@@ -3,6 +3,11 @@ package seedu.duke;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * A personal assitant that takes in user input and gives and performs an operation that can help the user
+ * in his day to day needs. Has a tasklist with multiple features. 
+ */
+
 public class Duke {
   // Creating ArrayList of Task objects
   protected static TaskList list;
@@ -10,7 +15,12 @@ public class Duke {
   protected static Ui ui = new Ui(new Scanner(System.in));
   protected static Parser parser = new Parser();
 
-
+  /**
+   * Runs Duke which commences the user to machine feedback loop until the user enters "bye".
+   * Loads existing tasklist and performs operations like list, find, delete and add on the tasklist.
+   * Saves the list to disk for next duke session inside data/duke.txt.
+   * @see Storage, TaskList, Parser, Ui
+   */
   public static void run() {
     ui.show_opening_string();
 

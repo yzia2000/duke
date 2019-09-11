@@ -2,6 +2,10 @@ package seedu.duke;
 
 import java.util.ArrayList;
 
+/**
+ * A list of tasks that has a java ArrayList at its core. Contains methods that add, remove and perform operations on elements
+ * of the list like mark as done.
+ */
 public class TaskList {
   protected ArrayList<Task> list = new  ArrayList<Task>();
   protected Ui ui = new Ui();
@@ -10,18 +14,41 @@ public class TaskList {
     this.list = list;
   }
 
+  /**
+   * Returns a task at a particular index.
+   * 
+   * @param index index of the task you want
+   * @return task at that index which is an object of a descendent of class Task.
+   */
   public Task get(int index) {
     return list.get(index);
   }
 
+  /**
+   * Returns size of task list.
+   *
+   * @return length of tasklist.
+   */
   public int size() {
     return list.size();
   }
-
+  
+  /**
+   * Checks whether list is empty or not.
+   *
+   * @return true or false to whether the internal ArrayList is empty or not.
+   */
   public boolean isEmpty() {
     return list.isEmpty();
   }
 
+  /**
+   * Adds a task to the ArrayList based on the task type and task description. Parses the description in case of event or deadline.
+   * Handles exceptions.
+   *
+   * @param task_type the type of task eg. todo, event, deadline
+   * @param task_description_full the description that follows the task type.
+   */
   public void add (String task_type, String task_description_full) {
     // if tasktype is not ToDo
     if (task_type.equals("todo")) {
@@ -52,23 +79,14 @@ public class TaskList {
         catch (ArrayIndexOutOfBoundsException e) {
           ui.wrong_description_error();
           return;
-          /* task_type = input.next(); */
-          /* System.out.println(); */
-          /* continue; */
         }
       }
       else {
         ui.correct_command_error();
         return;
-        /* task_type = input.next(); */
-        /* System.out.println(); */
-        /* continue; */
       }
     }
 
-    // Printing user input
-    /* try { */
-    // The output to print on writing correct command
     String output = "\t  " + list.get(list.size() - 1).toString();
     System.out.println("\t_____________________________________");
     System.out.println("\tGot it. I've added this task:");
@@ -76,20 +94,23 @@ public class TaskList {
     // Printing number of items in list
     System.out.println("\tNow you have " + list.size() + " tasks in the list.");
     System.out.println("\t_____________________________________\n\n");
-    /* } */
-    // if unknown command is inputted
-    /* catch (IndexOutOfBoundsException e) { */
-    /*   System.out.println("\t_____________________________________"); */
-    /*   System.out.println("\tPlease enter a valid command: todo, deadline, event, list, bye"); */
-    /*   System.out.println("\t_____________________________________\n\n"); */
-    /* } */
-    // Taking user input again
   }
 
+  /**
+   * Returns the core ArrayList inside the TaskList object.
+   *
+   * @return ArrayList of Tasks.
+   */
   public ArrayList<Task> return_list() {
     return list;
   }
-
+  
+  /**
+   * Marks a task at index as done.
+   *
+   * @param i index of the task to mark as done.
+   * @throws IndexOutOfBoundsException if an out of bounds index is requested.
+   */
   public void doTask(int i) {
     try {
       list.get(i).markAsDone();
@@ -104,6 +125,12 @@ public class TaskList {
     }
   }
 
+  /**
+   * Removes task at index.
+   * 
+   * @param i index at which task is removed.
+   * @throws IndexOutOfBoundsException if an out of bounds index is requested.
+   */
   public void removeTask(int i) {
     try {
       Task last_task = list.get(i);
@@ -119,6 +146,9 @@ public class TaskList {
     }
   }
 
+  /**
+   * Displays the list of tasks contained in the object.
+   */
   public void displayList() {
     // If user inputs list without appending list even once.
     if (list.isEmpty()) {
@@ -134,6 +164,11 @@ public class TaskList {
     System.out.println("\t_____________________________________\n\n");
   }
 
+  /**
+   * Finds task which contains a character sequence supplied.
+   *
+   * @param task_description a character sequence from which tasks will be found.
+   */
   public void findTask(String task_description) {
     ArrayList<Integer> matching_tasks = new ArrayList<Integer>();
     for (int i = 0; i < list.size(); i++) {
@@ -152,7 +187,13 @@ public class TaskList {
     }
     System.out.println("\t_____________________________________\n\n");
   }
-
+  
+  /**
+   * Checks whether two instaces of TaskList are equal.
+   *
+   * @param temp TaskList instance to compare against.
+   * @return true or false to the comparison.
+   */
   public boolean equals(TaskList temp) {
 
     if (this.size() != temp.size()) {
@@ -166,8 +207,6 @@ public class TaskList {
         return false;
       }
     }
-
     return true;
-
   }
 }
